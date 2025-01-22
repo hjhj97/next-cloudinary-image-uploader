@@ -20,13 +20,18 @@ function UploadResult({ fileUrls }: { fileUrls: string[] }) {
             <div className='flex flex-col items-center gap-2 bg-gray-50 p-3 rounded-lg'>
               <p className='break-all text-xs'>{url}</p>
               <div className='flex items-center gap-2'>
-                <CopyButton text={url} onCopy={() => setCopied(true)}>
+                <CopyButton
+                  text={url}
+                  title={url}
+                  onCopy={() => setCopied(true)}
+                >
                   <span className='text-sm font-medium text-gray-700 mb-2 bg-red-100 px-2 py-1 rounded inline-block hover:bg-red-200'>
                     URL
                   </span>
                 </CopyButton>
                 <CopyButton
                   text={`<img src="${url}" alt="preview images" />`}
+                  title={`<img src="${url}" alt="preview images" />`}
                   onCopy={() => setCopied(true)}
                 >
                   <span className='text-sm font-medium text-gray-700 mb-2 bg-blue-100 px-2 py-1 rounded inline-block hover:bg-blue-200'>
@@ -35,6 +40,7 @@ function UploadResult({ fileUrls }: { fileUrls: string[] }) {
                 </CopyButton>
                 <CopyButton
                   text={`![preview images](${url})`}
+                  title={`![preview images](${url})`}
                   onCopy={() => setCopied(true)}
                 >
                   <span className='text-sm font-medium text-gray-700 mb-2 bg-green-100 px-2 py-1 rounded inline-block'>

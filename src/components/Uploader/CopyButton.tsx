@@ -2,12 +2,14 @@ interface CopyButtonProps {
   text: string;
   children?: React.ReactNode;
   onCopy?: () => void;
+  title?: string;
 }
 
 export default function CopyButton({
   text,
   children,
   onCopy,
+  title,
 }: CopyButtonProps) {
   const handleCopy = async () => {
     try {
@@ -18,5 +20,9 @@ export default function CopyButton({
     }
   };
 
-  return <button onClick={handleCopy}>{children || 'Copy'}</button>;
+  return (
+    <button title={title} onClick={handleCopy}>
+      {children || 'Copy'}
+    </button>
+  );
 }
