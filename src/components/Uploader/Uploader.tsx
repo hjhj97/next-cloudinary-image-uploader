@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useFileUploader } from './useFileUploader';
 import PreviewList from './PreviewList';
 import CopyButton from './CopyButton';
@@ -9,6 +10,7 @@ export default function Uploader() {
     previewUrls,
     fileUrls,
     isLoading,
+    isUploaded,
     handleFileChange,
     startEdit,
     confirmEdit,
@@ -19,9 +21,9 @@ export default function Uploader() {
     setPreviewUrls,
   } = useFileUploader();
 
-  const handleCopyUrl = (url: string) => {
-    navigator.clipboard.writeText(url);
-  };
+  const isUploadDisabled = useMemo(() => {
+    return isLoading || previewUrls.length === 0 || isUploaded;
+  }, [isLoading, previewUrls.length, isUploaded]);
 
   return (
     <section className='flex flex-col items-center justify-between'>
@@ -47,10 +49,10 @@ export default function Uploader() {
         )}
         <button
           type='submit'
-          disabled={isLoading}
+          disabled={isUploadDisabled}
           className='bg-indigo-500 hover:bg-indigo-700 rounded-md py-2 px-4 mt-4 text-white w-full disabled:pointer-events-none disabled:opacity-60'
         >
-          Upload
+          {isUploaded ? 'Uploaded!!' : 'Upload'}
         </button>
       </form>
       <div className='grid grid-cols-2 gap-4 w-full mt-4'>

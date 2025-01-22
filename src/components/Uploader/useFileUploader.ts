@@ -12,9 +12,11 @@ export const useFileUploader = () => {
   const [previewUrls, setPreviewUrls] = useState<PreviewUrl[]>([]);
   const [fileUrls, setFileUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
+    setIsUploaded(false);
 
     const selectedFiles = Array.from(e.target.files);
     setFiles(selectedFiles);
@@ -108,6 +110,7 @@ export const useFileUploader = () => {
       }
 
       setFileUrls(uploadedUrls);
+      setIsUploaded(true);
     } catch (error) {
       console.error(error);
     } finally {
@@ -120,6 +123,7 @@ export const useFileUploader = () => {
     previewUrls,
     fileUrls,
     isLoading,
+    isUploaded,
     handleFileChange,
     startEdit,
     confirmEdit,
