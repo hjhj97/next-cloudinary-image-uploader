@@ -8,6 +8,7 @@ type PreviewListProps = {
   cancelEdit: (index: number) => void;
   handleDeleteFile: (index: number) => void;
   handleDeleteAll: () => void;
+  isUploaded: boolean;
 };
 
 function PreviewList({
@@ -18,6 +19,7 @@ function PreviewList({
   cancelEdit,
   handleDeleteFile,
   handleDeleteAll,
+  isUploaded,
 }: PreviewListProps) {
   return (
     <div className='mt-4'>
@@ -26,7 +28,8 @@ function PreviewList({
         <button
           type='button'
           onClick={handleDeleteAll}
-          className='text-sm bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded'
+          className='text-sm bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded disabled:pointer-events-none disabled:opacity-60'
+          disabled={isUploaded}
         >
           Delete All
         </button>
@@ -78,14 +81,16 @@ function PreviewList({
                   <button
                     type='button'
                     onClick={() => startEdit(index)}
-                    className='text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded'
+                    className='text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded disabled:pointer-events-none disabled:opacity-60'
+                    disabled={isUploaded}
                   >
                     Edit
                   </button>
                   <button
                     type='button'
                     onClick={() => handleDeleteFile(index)}
-                    className='text-xs bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded'
+                    className='text-xs bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded disabled:pointer-events-none disabled:opacity-60'
+                    disabled={isUploaded}
                   >
                     Delete
                   </button>

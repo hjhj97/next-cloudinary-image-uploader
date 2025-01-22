@@ -52,6 +52,7 @@ function UploadForm({
           cancelEdit={cancelEdit}
           handleDeleteFile={handleDeleteFile}
           handleDeleteAll={handleDeleteAll}
+          isUploaded={isUploaded}
         />
       )}
       <button
