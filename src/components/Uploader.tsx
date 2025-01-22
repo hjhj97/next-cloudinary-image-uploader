@@ -19,7 +19,7 @@ export default function Uploader() {
       setIsLoading(true);
       const formData = new FormData();
       formData.append('file', file);
-      const response = await fetch('/app/api/upload', {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -39,6 +39,7 @@ export default function Uploader() {
         <input
           type='file'
           name='file'
+          multiple
           onChange={handleFileChange}
           className='block w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-indigo-500 file:py-2.5 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-indigo-700 file:cursor-pointer focus:outline-none disabled:pointer-events-none disabled:opacity-60'
         />
