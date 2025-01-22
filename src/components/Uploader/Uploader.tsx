@@ -2,6 +2,7 @@
 
 import { useFileUploader } from './useFileUploader';
 import PreviewList from './PreviewList';
+import CopyButton from './CopyButton';
 
 export default function Uploader() {
   const {
@@ -17,6 +18,10 @@ export default function Uploader() {
     handleSubmit,
     setPreviewUrls,
   } = useFileUploader();
+
+  const handleCopyUrl = (url: string) => {
+    navigator.clipboard.writeText(url);
+  };
 
   return (
     <section className='flex flex-col items-center justify-between'>
@@ -48,12 +53,27 @@ export default function Uploader() {
           Upload
         </button>
       </form>
-      {fileUrls.map((url) => (
-        <div className='whitespace-pre-wrap overflow-hidden grid place-items-center'>
-          <code>{url}</code>
-          <img src={url} alt='preview images' />
-        </div>
-      ))}
+      <div className='grid grid-cols-2 gap-4 w-full mt-4'>
+        {fileUrls.map((url) => (
+          <div className='whitespace-pre-wrap overflow-hidden grid place-items-center p-4'>
+            <div className='flex items-center gap-2 mb-2'>
+              <code className='break-all text-xs'>{url}</code>
+              <CopyButton text={url} />
+            </div>
+            <div className='flex items-center gap-2'>
+              <code className='break-all text-xs'>
+                ![preview images]({url})
+              </code>
+              <CopyButton text={`![preview images](${url})`} />
+            </div>
+            <img
+              src={url}
+              alt='preview images'
+              className='object-contain w-full h-full max-h-[300px] mt-2'
+            />
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
