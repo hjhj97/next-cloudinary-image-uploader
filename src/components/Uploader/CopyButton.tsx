@@ -1,23 +1,22 @@
 interface CopyButtonProps {
   text: string;
-  label?: string;
+  children?: React.ReactNode;
+  onCopy?: () => void;
 }
 
-export default function CopyButton({ text, label = 'Copy' }: CopyButtonProps) {
+export default function CopyButton({
+  text,
+  children,
+  onCopy,
+}: CopyButtonProps) {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(text);
+      onCopy?.();
     } catch (error) {
       console.error('Failed to copy:', error);
     }
   };
 
-  return (
-    <button
-      onClick={handleCopy}
-      className='bg-gray-200 hover:bg-gray-300 rounded px-2 py-1 text-xs'
-    >
-      {label}
-    </button>
-  );
+  return <button onClick={handleCopy}>{children || 'Copy'}</button>;
 }
