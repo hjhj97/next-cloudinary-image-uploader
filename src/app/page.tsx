@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import Uploader from '@/components/Uploader';
+import Uploader from '@/components/Uploader/Uploader';
 import type { Metadata } from 'next';
 
 const TITLE = 'Cloudinary & Next.js Route Handlers';

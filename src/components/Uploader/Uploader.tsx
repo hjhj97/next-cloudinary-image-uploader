@@ -1,37 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useFileUploader } from './useFileUploader';
+import PreviewList from './PreviewList';
 
 export default function Uploader() {
-  const [file, setFile] = useState<File | null>(null);
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (!e.target.files) return;
-    setFile(e.target.files[0]);
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    try {
-      if (!file) throw new Error('No file selected');
-      setIsLoading(true);
-      const formData = new FormData();
-      formData.append('file', file);
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const result: { secure_url: string } = await response.json();
-      if (!result) throw new Error('Failed to upload file');
-      setFileUrl(result.secure_url);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const {
+    previewUrls,
+    fileUrl,
+    isLoading,
+    handleFileChange,
+    startEdit,
+    confirmEdit,
+    cancelEdit,
+    handleDeleteFile,
+    handleDeleteAll,
+    handleSubmit,
+    setPreviewUrls,
+  } = useFileUploader();
 
   return (
     <section className='flex flex-col items-center justify-between'>
@@ -41,8 +26,20 @@ export default function Uploader() {
           name='file'
           multiple
           onChange={handleFileChange}
+          accept='image/*'
           className='block w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-indigo-500 file:py-2.5 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-indigo-700 file:cursor-pointer focus:outline-none disabled:pointer-events-none disabled:opacity-60'
         />
+        {previewUrls.length > 0 && (
+          <PreviewList
+            previewUrls={previewUrls}
+            setPreviewUrls={setPreviewUrls}
+            startEdit={startEdit}
+            confirmEdit={confirmEdit}
+            cancelEdit={cancelEdit}
+            handleDeleteFile={handleDeleteFile}
+            handleDeleteAll={handleDeleteAll}
+          />
+        )}
         <button
           type='submit'
           disabled={isLoading}
@@ -54,7 +51,7 @@ export default function Uploader() {
       {fileUrl && (
         <div className='whitespace-pre-wrap overflow-hidden grid place-items-center'>
           <code>{fileUrl}</code>
-          <img src={fileUrl} alt='Uploaded image' />
+          <img src={fileUrl} alt='preview images' />
         </div>
       )}
     </section>
