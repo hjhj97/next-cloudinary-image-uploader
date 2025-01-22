@@ -1,31 +1,32 @@
 export default function Footer() {
   return (
-    <div className="border-t pt-8">
-      <h2 className="mb-3 text-2xl font-bold">Resources</h2>
-      <p className="mb-2">
+    <div className='border-t pt-8'>
+      <h2 className='mb-3 text-2xl font-bold'>Resources</h2>
+      <p className='mb-2'>
+        This project is forked from&nbsp;
         <a
-          href="https://github.com/cloudinary-community/cloudinary-examples/tree/main/examples/nextjs-upload-formdata"
-          className="text-blue-800 hover:underline"
-          target="_blank"
+          href='https://github.com/cloudinary-community/cloudinary-examples/tree/main/examples/nextjs-upload-formdata'
+          className='text-blue-800 hover:underline'
+          target='_blank'
         >
-          See the code on github.com
+          Cloudinary Examples
         </a>
       </p>
-      <p className="mb-2">
+      <p className='mb-2'>
         <a
-          href="https://next.cloudinary.dev/clduploadbutton/basic-usage"
-          className="text-blue-800 hover:underline"
-          target="_blank"
+          href='https://next.cloudinary.dev/clduploadbutton/basic-usage'
+          className='text-blue-800 hover:underline'
+          target='_blank'
         >
           Read the docs
         </a>
       </p>
       <p>
-        Next Cloudinary:{" "}
+        Next Cloudinary:{' '}
         <a
-          href="https://next.cloudinary.dev/"
-          className="text-blue-800 hover:underline"
-          target="_blank"
+          href='https://next.cloudinary.dev/'
+          className='text-blue-800 hover:underline'
+          target='_blank'
         >
           https://next.cloudinary.dev
         </a>
