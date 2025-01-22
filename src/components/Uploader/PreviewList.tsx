@@ -1,4 +1,4 @@
-import type { PreviewUrl } from './useFileUploader';
+import type { PreviewUrl } from './hooks/useFileUploader';
 
 type PreviewListProps = {
   previewUrls: PreviewUrl[];

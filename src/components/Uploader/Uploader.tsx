@@ -1,6 +1,6 @@
 'use client';
 
-import { useFileUploader } from './useFileUploader';
+import { useFileUploader } from './hooks/useFileUploader';
 import UploadResult from './UploadResult';
 import UploadForm from './UploadForm';
 

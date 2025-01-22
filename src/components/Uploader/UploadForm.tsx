@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useMemo } from 'react';
-import type { PreviewUrl } from './useFileUploader';
+import type { PreviewUrl } from './hooks/useFileUploader';
 import PreviewList from './PreviewList';
 
 type UploadFormProps = {
