@@ -4,7 +4,10 @@ function UploadResult({ fileUrls }: { fileUrls: string[] }) {
   return (
     <div className='grid grid-cols-2 gap-4 w-full mt-4'>
       {fileUrls.map((url) => (
-        <div className='whitespace-pre-wrap overflow-hidden grid place-items-center p-4'>
+        <div
+          className='whitespace-pre-wrap overflow-hidden grid place-items-center p-4'
+          key={url}
+        >
           <div className='flex items-center gap-2 mb-2'>
             <code className='break-all text-xs'>{url}</code>
             <CopyButton text={url} />
