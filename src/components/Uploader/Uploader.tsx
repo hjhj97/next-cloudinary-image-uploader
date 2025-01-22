@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { useFileUploader } from './useFileUploader';
 import PreviewList from './PreviewList';
-import CopyButton from './CopyButton';
+import UploadResult from './UploadResult';
 
 export default function Uploader() {
   const {
@@ -55,27 +55,7 @@ export default function Uploader() {
           {isUploaded ? 'Uploaded!!' : 'Upload'}
         </button>
       </form>
-      <div className='grid grid-cols-2 gap-4 w-full mt-4'>
-        {fileUrls.map((url) => (
-          <div className='whitespace-pre-wrap overflow-hidden grid place-items-center p-4'>
-            <div className='flex items-center gap-2 mb-2'>
-              <code className='break-all text-xs'>{url}</code>
-              <CopyButton text={url} />
-            </div>
-            <div className='flex items-center gap-2'>
-              <code className='break-all text-xs'>
-                ![preview images]({url})
-              </code>
-              <CopyButton text={`![preview images](${url})`} />
-            </div>
-            <img
-              src={url}
-              alt='preview images'
-              className='object-contain w-full h-full max-h-[300px] mt-2'
-            />
-          </div>
-        ))}
-      </div>
+      {isUploaded && <UploadResult fileUrls={fileUrls} />}
     </section>
   );
 }
