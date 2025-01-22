@@ -21,6 +21,14 @@ function PreviewList({
   handleDeleteAll,
   isUploaded,
 }: PreviewListProps) {
+  const handleNameChange = (fileIndex: number, newValue: string) => {
+    setPreviewUrls(
+      previewUrls.map((url, i) =>
+        i === fileIndex ? { ...url, name: newValue } : url
+      )
+    );
+  };
+
   return (
     <div className='mt-4'>
       <div className='flex justify-between items-center mb-2'>
@@ -44,63 +52,107 @@ function PreviewList({
             />
             <div className='flex items-center gap-2 w-full'>
               {preview.isEditing ? (
-                <div className='flex items-center gap-1 w-full'>
-                  <input
-                    type='text'
-                    value={preview.name}
-                    onChange={(e) =>
-                      setPreviewUrls(
-                        previewUrls.map((p, i) =>
-                          i === index ? { ...p, name: e.target.value } : p
-                        )
-                      )
-                    }
-                    className='text-sm p-1 border rounded flex-1'
-                    autoFocus
-                  />
-                  <button
-                    type='button'
-                    onClick={() => confirmEdit(index, preview.name)}
-                    className='text-xs bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded'
-                  >
-                    Confirm
-                  </button>
-                  <button
-                    type='button'
-                    onClick={() => cancelEdit(index)}
-                    className='text-xs bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 rounded'
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <EditMode
+                  preview={preview}
+                  index={index}
+                  handleNameChange={handleNameChange}
+                  confirmEdit={confirmEdit}
+                  cancelEdit={cancelEdit}
+                />
               ) : (
-                <>
-                  <p className='text-sm text-gray-600 truncate flex-1'>
-                    {preview.name}
-                  </p>
-                  <button
-                    type='button'
-                    onClick={() => startEdit(index)}
-                    className='text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded disabled:pointer-events-none disabled:opacity-60'
-                    disabled={isUploaded}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    type='button'
-                    onClick={() => handleDeleteFile(index)}
-                    className='text-xs bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded disabled:pointer-events-none disabled:opacity-60'
-                    disabled={isUploaded}
-                  >
-                    Delete
-                  </button>
-                </>
+                <PreviewMode
+                  preview={preview}
+                  index={index}
+                  startEdit={startEdit}
+                  handleDeleteFile={handleDeleteFile}
+                  isUploaded={isUploaded}
+                />
               )}
             </div>
           </div>
         ))}
       </div>
     </div>
+  );
+}
+
+type EditModeProps = {
+  preview: PreviewUrl;
+  index: number;
+  handleNameChange: (index: number, newValue: string) => void;
+  confirmEdit: (index: number, newName: string) => void;
+  cancelEdit: (index: number) => void;
+};
+
+function EditMode({
+  preview,
+  index,
+  handleNameChange,
+  confirmEdit,
+  cancelEdit,
+}: EditModeProps) {
+  return (
+    <div className='flex items-center gap-1 w-full'>
+      <input
+        type='text'
+        value={preview.name}
+        onChange={(e) => handleNameChange(index, e.target.value)}
+        className='text-sm p-1 border rounded flex-1'
+        autoFocus
+      />
+      <button
+        type='button'
+        onClick={() => confirmEdit(index, preview.name)}
+        className='text-xs bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded'
+      >
+        Confirm
+      </button>
+      <button
+        type='button'
+        onClick={() => cancelEdit(index)}
+        className='text-xs bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 rounded'
+      >
+        Cancel
+      </button>
+    </div>
+  );
+}
+
+type PreviewModeProps = {
+  preview: PreviewUrl;
+  index: number;
+  startEdit: (index: number) => void;
+  handleDeleteFile: (index: number) => void;
+  isUploaded: boolean;
+};
+
+function PreviewMode({
+  preview,
+  index,
+  startEdit,
+  handleDeleteFile,
+  isUploaded,
+}: PreviewModeProps) {
+  return (
+    <>
+      <p className='text-sm text-gray-600 truncate flex-1'>{preview.name}</p>
+      <button
+        type='button'
+        onClick={() => startEdit(index)}
+        className='text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded disabled:pointer-events-none disabled:opacity-60'
+        disabled={isUploaded}
+      >
+        Edit
+      </button>
+      <button
+        type='button'
+        onClick={() => handleDeleteFile(index)}
+        className='text-xs bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded disabled:pointer-events-none disabled:opacity-60'
+        disabled={isUploaded}
+      >
+        Delete
+      </button>
+    </>
   );
 }
 
