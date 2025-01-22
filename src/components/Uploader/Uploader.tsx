@@ -6,7 +6,7 @@ import PreviewList from './PreviewList';
 export default function Uploader() {
   const {
     previewUrls,
-    fileUrl,
+    fileUrls,
     isLoading,
     handleFileChange,
     startEdit,
@@ -48,12 +48,12 @@ export default function Uploader() {
           Upload
         </button>
       </form>
-      {fileUrl && (
+      {fileUrls.map((url) => (
         <div className='whitespace-pre-wrap overflow-hidden grid place-items-center'>
-          <code>{fileUrl}</code>
-          <img src={fileUrl} alt='preview images' />
+          <code>{url}</code>
+          <img src={url} alt='preview images' />
         </div>
-      )}
+      ))}
     </section>
   );
 }

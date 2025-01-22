@@ -10,7 +10,7 @@ export type PreviewUrl = {
 export const useFileUploader = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<PreviewUrl[]>([]);
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [fileUrls, setFileUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,15 +91,23 @@ export const useFileUploader = () => {
       if (files.length === 0) throw new Error('No files selected');
       setIsLoading(true);
 
-      const formData = new FormData();
-      formData.append('file', files[0]);
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const result: { secure_url: string } = await response.json();
-      if (!result) throw new Error('Failed to upload file');
-      setFileUrl(result.secure_url);
+      const uploadedUrls: string[] = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const formData = new FormData();
+        formData.append('file', files[i]);
+        formData.append('filename', previewUrls[i].name);
+
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        const result: { secure_url: string } = await response.json();
+        if (!result) throw new Error('Failed to upload file');
+        uploadedUrls.push(result.secure_url);
+      }
+
+      setFileUrls(uploadedUrls);
     } catch (error) {
       console.error(error);
     } finally {
@@ -110,7 +118,7 @@ export const useFileUploader = () => {
   return {
     files,
     previewUrls,
-    fileUrl,
+    fileUrls,
     isLoading,
     handleFileChange,
     startEdit,

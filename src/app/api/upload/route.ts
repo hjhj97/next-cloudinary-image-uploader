@@ -6,6 +6,7 @@ export async function POST(request: Request) {
     const uploadsFolder = process.env.CLOUDINARY_UPLOADS_FOLDER;
     const formData = await request.formData();
     const file = formData.get('file') as File;
+    const filename = formData.get('filename') as string;
 
     if (!file) {
       return Response.json({ error: 'No file uploaded' }, { status: 400 });
@@ -15,11 +16,15 @@ export async function POST(request: Request) {
     const result = await new Promise<UploadApiResponse>((resolve, reject) => {
       cloudinary.uploader
         .upload_stream(
-          { resource_type: 'auto', folder: uploadsFolder },
+          {
+            resource_type: 'auto',
+            folder: uploadsFolder,
+            public_id: filename.split('.')[0],
+          },
           (error, result) => {
             if (error || !result) reject(error);
             else resolve(result);
-          },
+          }
         )
         .end(Buffer.from(fileBuffer));
     });
