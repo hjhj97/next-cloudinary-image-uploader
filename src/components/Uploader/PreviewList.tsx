@@ -44,7 +44,7 @@ function PreviewList({
       </div>
       <div className='grid grid-cols-3 gap-4'>
         {previewUrls.map((preview, index) => (
-          <div key={index} className='flex flex-col items-center'>
+          <div key={preview.name} className='flex flex-col items-center'>
             <img
               src={preview.url}
               alt={`Preview ${index + 1}`}
