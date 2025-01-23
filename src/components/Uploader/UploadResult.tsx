@@ -4,6 +4,10 @@ import CopyButton from './CopyButton';
 function UploadResult({ fileUrls }: { fileUrls: string[] }) {
   const [copied, setCopied] = useState(false);
 
+  const convertToHtml = (url: string) =>
+    `<img src="${url}" alt="preview images" />`;
+  const convertToMarkdown = (url: string) => `![preview images](${url})`;
+
   return (
     <div className='grid grid-cols-2 gap-4 w-full mt-4'>
       {fileUrls.map((url) => (
@@ -20,18 +24,13 @@ function UploadResult({ fileUrls }: { fileUrls: string[] }) {
             <div className='flex flex-col items-center gap-2 bg-gray-50 p-3 rounded-lg'>
               <p className='break-all text-xs'>{url}</p>
               <div className='flex items-center gap-2'>
-                <CopyButton
-                  text={url}
-                  title={url}
-                  onCopy={() => setCopied(true)}
-                >
+                <CopyButton text={url} onCopy={() => setCopied(true)}>
                   <span className='text-sm font-medium text-gray-700 mb-2 bg-red-100 px-2 py-1 rounded inline-block hover:bg-red-200'>
                     URL
                   </span>
                 </CopyButton>
                 <CopyButton
-                  text={`<img src="${url}" alt="preview images" />`}
-                  title={`<img src="${url}" alt="preview images" />`}
+                  text={convertToHtml(url)}
                   onCopy={() => setCopied(true)}
                 >
                   <span className='text-sm font-medium text-gray-700 mb-2 bg-blue-100 px-2 py-1 rounded inline-block hover:bg-blue-200'>
@@ -39,8 +38,7 @@ function UploadResult({ fileUrls }: { fileUrls: string[] }) {
                   </span>
                 </CopyButton>
                 <CopyButton
-                  text={`![preview images](${url})`}
-                  title={`![preview images](${url})`}
+                  text={convertToMarkdown(url)}
                   onCopy={() => setCopied(true)}
                 >
                   <span className='text-sm font-medium text-gray-700 mb-2 bg-green-100 px-2 py-1 rounded inline-block'>
