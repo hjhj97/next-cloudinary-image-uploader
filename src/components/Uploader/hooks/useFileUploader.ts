@@ -48,7 +48,20 @@ export const useFileUploader = () => {
     );
   };
 
+  const checkDuplicateFileName = (currentIndex: number, newName: string) => {
+    for (let i = 0; i < previewUrls.length; i++) {
+      if (i === currentIndex) continue;
+      if (previewUrls[i].name === newName) return true;
+    }
+    return false;
+  };
+
   const confirmEdit = (index: number, newName: string) => {
+    if (checkDuplicateFileName(index, newName)) {
+      alert('This file name already exists. Please enter a different name.');
+      return;
+    }
+
     setPreviewUrls(
       previewUrls.map((preview, i) =>
         i === index
