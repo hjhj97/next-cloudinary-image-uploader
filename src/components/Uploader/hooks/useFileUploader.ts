@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { UPLOAD_TIMEOUT } from '@/app/constants/time';
 
 export type PreviewUrl = {
   url: string;
@@ -100,13 +101,29 @@ export const useFileUploader = () => {
         formData.append('file', files[i]);
         formData.append('filename', previewUrls[i].name);
 
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
-        const result: { secure_url: string } = await response.json();
-        if (!result) throw new Error('Failed to upload file');
-        uploadedUrls.push(result.secure_url);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), UPLOAD_TIMEOUT);
+
+        try {
+          const response = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData,
+            signal: controller.signal,
+          });
+          clearTimeout(timeoutId);
+
+          const result: { secure_url: string } = await response.json();
+          if (!result) throw new Error('Failed to upload file');
+          uploadedUrls.push(result.secure_url);
+        } catch (error) {
+          if (error instanceof Error) {
+            if (error.name === 'AbortError') {
+              alert('Upload timeout exceeded. Please try again.');
+              throw new Error('Upload Timeout');
+            }
+            throw error;
+          }
+        }
       }
 
       setFileUrls(uploadedUrls);
