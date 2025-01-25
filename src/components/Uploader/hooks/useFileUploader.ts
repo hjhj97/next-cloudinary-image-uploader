@@ -16,17 +16,22 @@ export const useFileUploader = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
 
+  const checkOverSizeFile = (files: File[]) => {
+    const oversizedFiles = files.filter((file) => file.size > MAX_FILE_SIZE);
+    if (oversizedFiles.length > 0) {
+      alert('Files cannot exceed 10MB in size.');
+      return true;
+    }
+    return false;
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     setIsUploaded(false);
 
     const selectedFiles = Array.from(e.target.files);
 
-    const oversizedFiles = selectedFiles.filter(
-      (file) => file.size > MAX_FILE_SIZE
-    );
-    if (oversizedFiles.length > 0) {
-      alert('Files cannot exceed 10MB in size.');
+    if (checkOverSizeFile(selectedFiles)) {
       e.target.value = '';
       return;
     }
