@@ -36,7 +36,8 @@ export const useFileUploader = () => {
       return;
     }
 
-    setFiles(selectedFiles);
+    // Merge newly selected files with existing files if any
+    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
 
     const previews: PreviewUrl[] = [];
     selectedFiles.forEach((file) => {
@@ -49,7 +50,11 @@ export const useFileUploader = () => {
           isEditing: false,
         });
         if (previews.length === selectedFiles.length) {
-          setPreviewUrls(previews);
+          // Merge newly selected files with existing files if any
+          setPreviewUrls((prevPreviewUrls) => [
+            ...prevPreviewUrls,
+            ...previews,
+          ]);
         }
       };
       fileReader.readAsDataURL(file);
