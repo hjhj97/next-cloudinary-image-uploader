@@ -17,9 +17,10 @@ export async function POST(request: Request) {
       cloudinary.uploader
         .upload_stream(
           {
-            resource_type: 'auto',
+            resource_type: 'image',
             folder: uploadsFolder,
             public_id: filename.split('.')[0],
+            allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
           },
           (error, result) => {
             if (error || !result) reject(error);
