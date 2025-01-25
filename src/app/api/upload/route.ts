@@ -1,3 +1,4 @@
+import { MAX_FILE_SIZE } from '@/app/constants/size';
 import cloudinary from '@/lib/cloudinary';
 import type { UploadApiResponse } from 'cloudinary';
 
@@ -21,6 +22,7 @@ export async function POST(request: Request) {
             folder: uploadsFolder,
             public_id: filename.split('.')[0],
             allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+            chunk_size: MAX_FILE_SIZE,
           },
           (error, result) => {
             if (error || !result) reject(error);

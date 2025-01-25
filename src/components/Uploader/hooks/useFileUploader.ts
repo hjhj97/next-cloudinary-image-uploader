@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { UPLOAD_TIMEOUT } from '@/app/constants/time';
+import { MAX_FILE_SIZE } from '@/app/constants/size';
 
 export type PreviewUrl = {
   url: string;
@@ -20,6 +21,16 @@ export const useFileUploader = () => {
     setIsUploaded(false);
 
     const selectedFiles = Array.from(e.target.files);
+
+    const oversizedFiles = selectedFiles.filter(
+      (file) => file.size > MAX_FILE_SIZE
+    );
+    if (oversizedFiles.length > 0) {
+      alert('Files cannot exceed 10MB in size.');
+      e.target.value = '';
+      return;
+    }
+
     setFiles(selectedFiles);
 
     const previews: PreviewUrl[] = [];
