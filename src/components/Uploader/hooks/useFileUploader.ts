@@ -181,6 +181,10 @@ export const useFileUploader = () => {
     }
   };
 
+  const clearFiles = () => {
+    window.location.reload();
+  };
+
   return {
     files,
     previewUrls,
@@ -195,5 +199,6 @@ export const useFileUploader = () => {
     handleDeleteAll,
     handleSubmit,
     setPreviewUrls,
+    clearFiles,
   };
 };

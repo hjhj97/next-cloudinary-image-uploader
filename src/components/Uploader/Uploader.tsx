@@ -18,6 +18,7 @@ export default function Uploader() {
     handleDeleteAll,
     handleSubmit,
     setPreviewUrls,
+    clearFiles,
   } = useFileUploader();
 
   return (
@@ -35,7 +36,9 @@ export default function Uploader() {
         handleDeleteFile={handleDeleteFile}
         handleDeleteAll={handleDeleteAll}
       />
-      {isUploaded && <UploadResult fileUrls={fileUrls} />}
+      {isUploaded && (
+        <UploadResult fileUrls={fileUrls} clearFiles={clearFiles} />
+      )}
     </section>
   );
 }
