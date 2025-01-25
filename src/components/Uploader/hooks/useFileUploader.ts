@@ -67,7 +67,19 @@ export const useFileUploader = () => {
     return false;
   };
 
+  const checkValidFileName = (newName: string) => {
+    const publicIdRegex =
+      /^[^\/\s?&\\#%<>+][a-zA-Z0-9\u0080-\uFFFF._/-]{0,30}[^\/\s?&\\#%<>+]$/;
+    const nameWithoutExt = newName.split('.')[0];
+    return publicIdRegex.test(nameWithoutExt);
+  };
+
   const confirmEdit = (index: number, newName: string) => {
+    if (!checkValidFileName(newName)) {
+      alert('Invalid file name. Please enter a valid file name. ');
+      return;
+    }
+
     if (checkDuplicateFileName(index, newName)) {
       alert('This file name already exists. Please enter a different name.');
       return;
