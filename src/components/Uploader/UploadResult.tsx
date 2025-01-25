@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import CopyButton from './CopyButton';
+import { getFileName } from '@/utils/getFilenameFromUrl';
 
 function UploadResult({ fileUrls }: { fileUrls: string[] }) {
   const [copied, setCopied] = useState(false);
 
   const convertToHtml = (url: string) =>
-    `<img src="${url}" alt="preview images" />`;
-  const convertToMarkdown = (url: string) => `![preview images](${url})`;
+    `<img src="${url}" alt="${getFileName(url)}" />`;
+  const convertToMarkdown = (url: string) => `![${getFileName(url)}](${url})`;
 
   return (
     <div className='grid grid-cols-2 gap-4 w-full mt-4'>
